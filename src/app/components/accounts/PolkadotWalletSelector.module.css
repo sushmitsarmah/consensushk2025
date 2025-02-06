@@ -1,0 +1,77 @@
+.pdwContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  max-width: 400px;
+  background-color: #fff;
+}
+
+.pdwTitle {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.pdwError {
+  color: #e00;
+  font-size: 0.875rem;
+}
+
+.pdwWalletButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.pdwWalletButton {
+  border: 1px solid #999;
+  border-radius: 4px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  transition: border-color 0.2s;
+}
+
+.pdwWalletButton:hover {
+  border-color: #555;
+}
+
+.pdwAvailable {
+  border-color: #4caf50;
+}
+
+.pdwMissing {
+  border-color: #f44336;
+}
+
+.pdwAccountList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.pdwAccountLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pdwAccountLabel small {
+  color: #666;
+  font-size: 0.75rem;
+}
+
+.pdwDisconnectButton {
+  border: 1px solid #999;
+  border-radius: 4px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  transition: border-color 0.2s;
+}
+
+.pdwDisconnectButton:hover {
+  border-color: #555;
+}

@@ -5,7 +5,7 @@
 
 #### 1. Set your secrets
 
-Put your secrets in the `.env` file, using [`env.example`](./env.example) as a template.
+Put your secrets in the `.env` file, using [`.env.example`](./.env.example) as a template.
 
 - `PINATA_JWT` and `PINATA_GATEWAY`: get your credentials for free on the [Pinata Cloud](https://pinata.cloud/). After registration, go to the [API keys section](https://app.pinata.cloud/developers/api-keys) and generate your API key. Save the JWT token and your gateway to the relevant environment variables.
 - `MNEMONIC`: generate a random mnemonic seed phrase. Use [`polkadot{.js}`](https://polkadot.js.org/extension/) or any other wallet to generate a 12-word mnemonic secret phrase. For the test environment and this example, you may also use built-in secrets such as `//Alice` or `//Bob`.
@@ -30,7 +30,7 @@ docker compose up
 > [!IMPORTANT]
 > Ensure your test environment is running based on the previous steps.
 
-Go to the [`__tests__`](./src/__tests__/) directory, read and execute test. Using VS Code, you may debug tests with breakpoints using [`vitest.explorer`](https://marketplace.visualstudio.com/items?itemName=vitest.explorer) extension.
+Go to the [`tests`](./src/tests/) directory, read and execute test. Using VS Code, you may debug tests with breakpoints using [`vitest.explorer`](https://marketplace.visualstudio.com/items?itemName=vitest.explorer) extension.
 
 The SDK consists of a thin client and a REST server. In the previous steps, we already launched the REST server, so ensure it's live: http://localhost:3333/documentation/static/index.html. For production environments, you may use [publicly available endpoints](https://docs.unique.network/reference/sdk-endpoints.html) or run a local server the same way we did—just modify the `CHAIN` variable in the [`docker-compose.yml`](./docker-compose.yml) file.
 

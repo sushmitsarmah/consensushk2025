@@ -1,95 +1,70 @@
-import Image from "next/image";
+"use client";
+
+import { useContext, useEffect, useState } from "react";
+import PolkadotWalletSelector from "@/app/components/accounts/PolkadotWalletSelector";
+import { SdkContext } from "./lib/sdk/UniqueSDKContext";
+import { AccountsContext } from "@/app/lib/wallets";
 import styles from "./page.module.css";
 
 export default function Home() {
+  const { sdk } = useContext(SdkContext);
+  const accountContext = useContext(AccountsContext);
+  const [balance, setBalance] = useState("");
+  const [toAddress, setToAddress] = useState("");
+  const [amount, setAmount] = useState("");
+
+  useEffect(() => {
+    const query = async () => {
+      if (!sdk || !accountContext?.activeAccount) return;
+      const bal = await sdk.balance.get({
+        address: accountContext.activeAccount.address,
+      });
+      setBalance(bal.available);
+    };
+    query();
+  }, [sdk, accountContext]);
+
+  const transferBalance = async () => {
+    const account = accountContext?.activeAccount;
+    if (!sdk || !account || !toAddress || !amount) return;
+
+    try {
+      await sdk.balance.transfer(
+        { to: toAddress, amount },
+        { signerAddress: account.address },
+        // TODO: update @unique-nft/utils
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        { signer: account.signer as any }
+      );
+      alert("Transfer successful");
+    } catch (error) {
+      console.error("Transfer failed", error);
+      alert("Transfer failed");
+    }
+  };
+
   return (
     <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+      <PolkadotWalletSelector />
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
+      {accountContext?.activeAccount && (
+        <div>
+          <h2>Balance is {balance !== "" ? balance : "..."}</h2>
+          <input
+            type="text"
+            placeholder="Recipient Address"
+            value={toAddress}
+            onChange={(e) => setToAddress(e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Amount"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+          />
+          <button onClick={transferBalance}>Send</button>
         </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      )}
     </div>
   );
 }
