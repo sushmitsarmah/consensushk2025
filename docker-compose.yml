@@ -1,6 +1,20 @@
 version: '3.8'
 
 services:
+  assethub-chopsticks:
+    container_name: assethub-chopsticks
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      target: assethub
+    environment:
+      - PORT=8002
+    ports:
+      - "8002:8002"
+    networks:
+      - backend
+    restart: always
+
   substrate-proxy:
     image: uniquenetwork/substrate-proxy-http-proxy:master
     ports:
@@ -16,19 +30,6 @@ services:
     restart: always
     depends_on:
       - assethub-chopsticks
-    networks:
-      - backend
-
-  assethub-chopsticks:
-    container_name: assethub-chopsticks
-    build:
-      context: .
-      dockerfile: ./Dockerfile
-      target: assethub
-    environment:
-      - PORT=8002
-    ports:
-      - "8002:8002"
     networks:
       - backend
 
