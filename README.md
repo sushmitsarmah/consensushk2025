@@ -2,6 +2,27 @@
 
 Welcome to the Polkadot NFTMozaic bounty challenge. This challenge consists of a core challenge with a dedicated bounty split between a winner and a runner-up according to the prize distribution listed below and several additional bonus challenges, each providing additional prize allotments if successfully accomplished. The bonus prizes are available only to the winner and runner-up.
 
+- [Polkadot NFTMozaic Consensus Hong Kong 2025 Challenge](#polkadot-nftmozaic-consensus-hong-kong-2025-challenge)
+  - [Task challenge overview](#task-challenge-overview)
+  - [Task components](#task-components)
+    - [Core challenge](#core-challenge)
+    - [Optional challenges](#optional-challenges)
+- [Judgement criteria](#judgement-criteria)
+- [The bounty awards structure](#the-bounty-awards-structure)
+- [The Asset Hub \& Next.js template](#the-asset-hub--nextjs-template)
+  - [TL;DR](#tldr)
+  - [Intro](#intro)
+  - [Main components overview](#main-components-overview)
+    - [1. The Asset Hub node](#1-the-asset-hub-node)
+    - [2. Unique SDK](#2-unique-sdk)
+    - [Running local Asset Hub node \& SDK](#running-local-asset-hub-node--sdk)
+    - [Running Next.js application](#running-nextjs-application)
+  - [Polkadot NFTs and metadata 101](#polkadot-nfts-and-metadata-101)
+    - [Creating collections and NFTs](#creating-collections-and-nfts)
+    - [Metadata](#metadata)
+  - [Wrapping Up](#wrapping-up)
+    - [Next Steps](#next-steps)
+
 ## Task challenge overview
 
 Your challenge is to create a simple UI that provides a means to create an NFT asset (collection, token) on the Polkadot Asset Hub. The challenge consists of a core component and two optional challenges.
@@ -48,7 +69,20 @@ Your solution will be judged on two points:
 
 Asset Hub is a specialized parachain within the Polkadot ecosystem designed for managing and transferring digital assets, including NFTs, without requiring smart contracts. It leverages Substrate's built-in `nfts pallet` to facilitate efficient and scalable NFT creation and management.
 
-# TL;DR
+- [TL;DR](#tldr)
+- [Intro](#intro)
+- [Main components overview](#main-components-overview)
+  - [1. The Asset Hub node](#1-the-asset-hub-node)
+  - [2. Unique SDK](#2-unique-sdk)
+  - [Running local Asset Hub node \& SDK](#running-local-asset-hub-node--sdk)
+  - [Running Next.js application](#running-nextjs-application)
+- [Polkadot NFTs and metadata 101](#polkadot-nfts-and-metadata-101)
+  - [Creating collections and NFTs](#creating-collections-and-nfts)
+  - [Metadata](#metadata)
+- [Wrapping Up](#wrapping-up)
+  - [Next Steps](#next-steps)
+
+## TL;DR
 
 Ensure you have the following installed on your computer:
 
@@ -83,7 +117,7 @@ npm run dev
 App runs on http://localhost:3000.
 
 
-# Intro
+## Intro
 
 This template aims to bootstrap an NFT application on `Asset Hub by Polkadot`. It utilizes [`@unique-nft/sdk`](https://www.npmjs.com/package/@unique-nft/sdk) for seamless blockchain interactions.
 
@@ -144,7 +178,7 @@ That is it! Your local development environment is ready to go!
 
 Now, let's learn how to use it on the frontend.
 
-### Run your Next.js application
+### Running Next.js application
 
 Create the `.env` file in the root directory using [`.env.example`](./.env.example) as a template. At this point, the only significant variable is `NEXT_PUBLIC_REST_URL`.
 
@@ -353,7 +387,7 @@ await ah.nftsPallet.collection.setMetadata({
 
 Congratulations! You've now set up a local NFT environment on Asset Hub, interacted with the Unique SDK, and explored NFT minting and metadata management.
 
-### Next Steps:
+### Next Steps
 - **Deep Dive into Asset Hub NFTs**  
   Read the official Polkadot documentation:  
   [Polkadot NFT Pallet](https://wiki.polkadot.network/docs/learn-nft-pallets)
