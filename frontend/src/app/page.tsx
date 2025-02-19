@@ -1,14 +1,12 @@
 "use client";
 
-import CreateNFTCollection from '@/web3/services/collections/collections';
+import ShowCollections from '@/web3/services/collections/collections';
 
 export default function Home() {
 
   return (
     <div>
-
-      <CreateNFTCollection />
-
+      <ShowCollections />
     </div>
   );
 }
