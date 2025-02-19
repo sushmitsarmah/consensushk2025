@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import pinata from '@/web3/services/ipfs/pinata'; // Adjust the path as necessary
+import { Button } from '@/components/ui/button';
 
 const ViewFile: React.FC = () => {
     const [imageSrc, setImageSrc] = React.useState<string | null>(null);
@@ -19,9 +20,9 @@ const ViewFile: React.FC = () => {
 
     return (
         <div>
-            <button onClick={fetchFile}>
+            <Button onClick={fetchFile}>
                 Fetch
-            </button>
+            </Button>
             {imageSrc && <img src={imageSrc} alt="Fetched from IPFS" />}
         </div>
     );
