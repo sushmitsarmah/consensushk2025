@@ -1,151 +1,101 @@
 "use client"
 
-import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import * as z from "zod"
 import { Plus } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import { Label } from "@/components/ui/label" // Assuming you have a Label component
 
-const attributeSchema = z.object({
-    trait_type: z.string().min(1, "Trait type is required"),
-    value: z.string().min(1, "Value is required"),
-})
+interface Attribute {
+  trait_type: string
+  value: string
+}
 
-const formSchema = z.object({
-    name: z.string().min(1, "Name is required"),
-    description: z.string().min(1, "Description is required"),
-    imageUrl: z.string().url("Must be a valid URL"),
-    attributes: z.array(attributeSchema),
-})
+interface FormValues {
+  name: string
+  description: string
+  imageUrl: string
+  attributes: Attribute[]
+}
 
 export function CreateNFTForm({ collectionId }: { collectionId: string }) {
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            name: "",
-            description: "",
-            imageUrl: "",
-            attributes: [{ trait_type: "", value: "" }],
-        },
-    })
+  const { register, handleSubmit, watch, setValue, getValues, formState: { errors } } = useForm<FormValues>({
+    defaultValues: {
+      name: "",
+      description: "",
+      imageUrl: "",
+      attributes: [{ trait_type: "", value: "" }],
+    },
+  })
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log("Creating NFT:", { ...values, collectionId })
-        // Handle NFT creation logic here
-    }
+  function onSubmit(values: FormValues) {
+    console.log("Creating NFT:", { ...values, collectionId })
+    // Handle NFT creation logic here
+  }
 
-    const addAttribute = () => {
-        const currentAttributes = form.getValues("attributes")
-        form.setValue("attributes", [
-            ...currentAttributes,
-            { trait_type: "", value: "" },
-        ])
-    }
+  const addAttribute = () => {
+    const currentAttributes = getValues("attributes")
+    setValue("attributes", [
+      ...currentAttributes,
+      { trait_type: "", value: "" },
+    ])
+  }
 
-    return (
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>NFT Name</FormLabel>
-                            <FormControl>
-                                <Input {...field} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
+  return (
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+      <div>
+        <Label>NFT Name</Label>
+        <Input {...register("name", { required: "Name is required" })} />
+        {errors.name && <span>{errors.name.message}</span>}
+      </div>
 
-                <FormField
-                    control={form.control}
-                    name="description"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Description</FormLabel>
-                            <FormControl>
-                                <Textarea {...field} rows={4} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
+      <div>
+        <Label>Description</Label>
+        <Textarea {...register("description", { required: "Description is required" })} rows={4} />
+        {errors.description && <span>{errors.description.message}</span>}
+      </div>
 
-                <FormField
-                    control={form.control}
-                    name="imageUrl"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>NFT Image URL</FormLabel>
-                            <FormControl>
-                                <Input {...field} type="url" />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
+      <div>
+        <Label>NFT Image URL</Label>
+        <Input {...register("imageUrl", { required: "Image URL is required", pattern: { value: /^(https?|chrome):\/\/[^\s$.?#].[^\s]*$/, message: "Must be a valid URL" } })} type="url" />
+        {errors.imageUrl && <span>{errors.imageUrl.message}</span>}
+      </div>
 
-                <div>
-                    <div className="flex justify-between items-center mb-4">
-                        <h3 className="text-sm font-medium text-slate-700">Attributes</h3>
-                        <Button
-                            type="button"
-                            variant="outline"
-                            size="sm"
-                            onClick={addAttribute}
-                        >
-                            <Plus className="h-4 w-4 mr-2" />
-                            Add Attribute
-                        </Button>
-                    </div>
-                    <div className="space-y-4">
-                        {form.watch("attributes").map((_, index) => (
-                            <div key={index} className="grid grid-cols-2 gap-4">
-                                <FormField
-                                    control={form.control}
-                                    name={`attributes.${index}.trait_type`}
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormControl>
-                                                <Input {...field} placeholder="Trait Type" />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name={`attributes.${index}.value`}
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormControl>
-                                                <Input {...field} placeholder="Value" />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                            </div>
-                        ))}
-                    </div>
-                </div>
+      <div>
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-sm font-medium text-slate-700">Attributes</h3>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={addAttribute}
+          >
+            <Plus className="h-4 w-4 mr-2" />
+            Add Attribute
+          </Button>
+        </div>
+        <div className="space-y-4">
+          {watch("attributes").map((_, index) => (
+            <div key={index} className="grid grid-cols-2 gap-4">
+              <div>
+                <Label>Trait Type</Label>
+                <Input {...register(`attributes.${index}.trait_type`, { required: "Trait type is required" })} placeholder="Trait Type" />
+                {errors.attributes?.[index]?.trait_type && <span>{errors.attributes[index].trait_type.message}</span>}
+              </div>
+              <div>
+                <Label>Value</Label>
+                <Input {...register(`attributes.${index}.value`, { required: "Value is required" })} placeholder="Value" />
+                {errors.attributes?.[index]?.value && <span>{errors.attributes[index].value.message}</span>}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
 
-                <Button type="submit" className="w-full">
-                    Create NFT
-                </Button>
-            </form>
-        </Form>
-    )
+      <Button type="submit" className="w-full">
+        Create NFT
+      </Button>
+    </form>
+  )
 }

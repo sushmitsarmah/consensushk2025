@@ -1,29 +1,19 @@
 "use client"
 
-import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import * as z from "zod"
 import { Button } from "@/components/ui/button"
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form"
+import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 
-const formSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  description: z.string().min(1, "Description is required"),
-  imageUrl: z.string().url("Must be a valid URL"),
-})
+interface FormValues {
+  name: string
+  description: string
+  imageUrl: string
+}
 
 export function CreateCollectionForm() {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const { register, handleSubmit, formState: { errors } } = useForm<FormValues>({
     defaultValues: {
       name: "",
       description: "",
@@ -31,60 +21,34 @@ export function CreateCollectionForm() {
     },
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values: FormValues) {
     console.log("Creating collection:", values)
     // Handle collection creation logic here
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Collection Name</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+      <div>
+        <Label>Collection Name</Label>
+        <Input {...register("name", { required: "Name is required" })} />
+        {errors.name && <span>{errors.name.message}</span>}
+      </div>
 
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Description</FormLabel>
-              <FormControl>
-                <Textarea {...field} rows={4} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+      <div>
+        <Label>Description</Label>
+        <Textarea {...register("description", { required: "Description is required" })} rows={4} />
+        {errors.description && <span>{errors.description.message}</span>}
+      </div>
 
-        <FormField
-          control={form.control}
-          name="imageUrl"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Collection Image URL</FormLabel>
-              <FormControl>
-                <Input {...field} type="url" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+      <div>
+        <Label>Collection Image URL</Label>
+        <Input {...register("imageUrl", { required: "Image URL is required", pattern: { value: /^(https?|chrome):\/\/[^\s$.?#].[^\s]*$/, message: "Must be a valid URL" } })} type="url" />
+        {errors.imageUrl && <span>{errors.imageUrl.message}</span>}
+      </div>
 
-        <Button type="submit" className="w-full">
-          Create Collection
-        </Button>
-      </form>
-    </Form>
+      <Button type="submit" className="w-full">
+        Create Collection
+      </Button>
+    </form>
   )
 }
