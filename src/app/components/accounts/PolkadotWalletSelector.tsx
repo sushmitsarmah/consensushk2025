@@ -4,6 +4,7 @@ import React from "react";
 import { useAccountsContext } from "@/app/lib/wallets/AccountsProvider";
 import { KNOWN_WALLETS, shortPolkadotAddress } from "@/app/lib/utils";
 import styles from "./PolkadotWalletSelector.module.css";
+import { Button } from "@/components/ui/button";
 
 const PolkadotWalletSelector: React.FC = () => {
   const accountsContext = useAccountsContext();
@@ -28,11 +29,11 @@ const PolkadotWalletSelector: React.FC = () => {
 
       {error && <p className={styles.pdwError}>{error}</p>}
 
-      <div className={styles.pdwWalletButtons}>
+      <div className="grid grid-cols-2 gap-2">
         {KNOWN_WALLETS.map(({ name, title, downloadLink }) => {
           const wallet = wallets.find((w) => w.name === name);
           return (
-            <button
+            <Button
               key={name}
               className={`${styles.pdwWalletButton} ${
                 wallet ? styles.pdwAvailable : styles.pdwMissing
@@ -42,7 +43,7 @@ const PolkadotWalletSelector: React.FC = () => {
               }
             >
               {wallet ? `Connect ${title}` : `Download ${title}`}
-            </button>
+            </Button>
           );
         })}
       </div>

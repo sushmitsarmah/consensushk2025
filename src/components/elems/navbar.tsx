@@ -1,13 +1,9 @@
 "use client"
 
 import Link from "next/link"
-import { Wallet } from "lucide-react"
-import { Button } from "@/components/ui/button"
 import { WalletModal } from "@/components/elems/wallet-modal"
-import { useState } from "react"
 
 export function Navbar() {
-    const [showWalletModal, setShowWalletModal] = useState(false)
 
     return (
         <nav className="border-b bg-white">
@@ -32,13 +28,9 @@ export function Navbar() {
                             </Link>
                         </div>
                     </div>
-                    <Button onClick={() => setShowWalletModal(true)}>
-                        <Wallet className="mr-2 h-4 w-4" />
-                        Connect Wallet
-                    </Button>
+                    <WalletModal />
                 </div>
             </div>
-            <WalletModal open={showWalletModal} onOpenChange={setShowWalletModal} />
         </nav>
     )
 }
