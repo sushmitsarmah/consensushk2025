@@ -30,8 +30,6 @@ const CollectionNFTs = ({ id }: CollectionPageProps) => {
             console.log(collectionData)
             setCollection(collectionData)
 
-
-
         } catch (err: any) {
             setError(`Failed to fetch collection: ${err.message}`)
         } finally {
@@ -62,7 +60,7 @@ const CollectionNFTs = ({ id }: CollectionPageProps) => {
         const arr = [];
         for (let i = 1; i <= items; i++) {
             arr.push(
-                <ItemCard id={i} />
+                <ItemCard key={i} id={i} />
             )
         }
         return arr;

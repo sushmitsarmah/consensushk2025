@@ -59,9 +59,10 @@ const CreateNFT = ({ collectionId, items }: CreateNFTProps) => {
     };
 
     const createCollectionItem = async () => {
+        setIsModalOpen(false);
+
         if (!sdk || !accountContext?.activeAccount) return;
 
-        console.log('!!!!!!!!')
         const account = accountContext?.activeAccount;
 
         // 🐣 Step 3: Create a new collection on AssetHub
@@ -99,8 +100,7 @@ const CreateNFT = ({ collectionId, items }: CreateNFTProps) => {
 
     return (
         <div>
-            <Button onClick={createCollectionItem}>Create new NFT</Button>
-            {/* <Button onClick={() => setIsModalOpen(true)}>Create new NFT</Button> */}
+            <Button onClick={() => setIsModalOpen(true)}>Create new NFT</Button>
             <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
                 <DialogContent>
                     <DialogHeader>
@@ -111,7 +111,7 @@ const CreateNFT = ({ collectionId, items }: CreateNFTProps) => {
                         </DialogTitle>
                     </DialogHeader>
                     <div className="grid gap-4 py-4">
-                        <form onSubmit={createCollectionItem} className="flex flex-col gap-4">
+                        <form onSubmit={(e) => {e.preventDefault(); createCollectionItem()}} className="flex flex-col gap-4">
                             <Label htmlFor="name">NFT Name:</Label>
                             <Input
                                 type="text"
