@@ -10,6 +10,10 @@ import {
 } from "react";
 import { AssetHub, AssetHubInstance } from "@unique-nft/sdk";
 
+// import { Sr25519Account } from "@unique-nft/sr25519";
+
+// const account = Sr25519Account.fromUri(mnemonic);
+
 export type SdkContextValueType = {
   sdk?: AssetHubInstance;
 };

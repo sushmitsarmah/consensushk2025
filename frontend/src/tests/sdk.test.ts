@@ -163,7 +163,7 @@ describe.sequential("Pallet nfts", () => {
     const privateKey = config.mnemonic;
     const account = Sr25519Account.fromUri(privateKey);
     const ah = AssetHub({
-      baseUrl: "http://localhost:3333",
+      baseUrl: "https://rest.unique.network/v2/paseo-asset-hub",
       account,
     });
 

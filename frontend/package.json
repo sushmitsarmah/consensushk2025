@@ -21,6 +21,7 @@
     "@radix-ui/react-slot": "^1.1.2",
     "@unique-nft/sdk": "^2.5.0",
     "@unique-nft/sr25519": "^0.0.2",
+    "@unique-nft/substrate-client": "^0.11.11",
     "@unique-nft/utils": "^0.3.20",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
