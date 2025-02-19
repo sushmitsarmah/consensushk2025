@@ -15,13 +15,19 @@
   "dependencies": {
     "@polkadot/extension-dapp": "^0.58.2",
     "@polkadot/extension-inject": "^0.58.2",
+    "@radix-ui/react-slot": "^1.1.2",
     "@unique-nft/sdk": "^2.5.0",
     "@unique-nft/sr25519": "^0.0.2",
     "@unique-nft/utils": "^0.3.20",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.475.0",
     "next": "15.1.4",
     "pinata-web3": "^0.5.4",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "tailwind-merge": "^3.0.1",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
