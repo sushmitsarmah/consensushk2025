@@ -1,3 +1,5 @@
+# MozaicDot
+
 # Polkadot NFTMozaic Consensus Hong Kong 2025 Challenge
 
 Welcome to the Polkadot NFTMozaic bounty challenge. This challenge consists of a core challenge with a dedicated bounty split between a winner and a runner-up according to the prize distribution listed below and several additional bonus challenges, each providing additional prize allotments if successfully accomplished. The bonus prizes are available only to the winner and runner-up.
