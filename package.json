@@ -13,6 +13,7 @@
     "prepare-e2e": "npx playwright install chromium && npx w3wallets polkadotJS"
   },
   "dependencies": {
+    "@hookform/resolvers": "^4.1.0",
     "@polkadot/extension-dapp": "^0.58.2",
     "@polkadot/extension-inject": "^0.58.2",
     "@radix-ui/react-dialog": "^1.1.6",
