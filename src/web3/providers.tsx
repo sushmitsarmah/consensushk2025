@@ -1,7 +1,7 @@
 "use client";
 
-import { UniqueSDKProvider } from "@/app/lib/sdk";
-import { AccountsProvider } from "@/app/lib/wallets";
+import { UniqueSDKProvider } from "@/web3/lib/sdk";
+import { AccountsProvider } from "@/web3/lib/wallets";
 import { type ReactNode } from "react";
 
 export function Providers(props: { children: ReactNode }) {

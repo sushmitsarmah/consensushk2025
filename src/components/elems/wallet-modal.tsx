@@ -8,12 +8,12 @@ import {
 } from "@/components/ui/dialog"
 
 import { useCallback, useEffect, useState } from "react";
-import PolkadotWalletSelector from "@/app/components/accounts/PolkadotWalletSelector";
-import { useSdkContext } from "@/app/lib/sdk/UniqueSDKProvider";
-import { useAccountsContext } from "@/app/lib/wallets/AccountsProvider";
+import PolkadotWalletSelector from "@/web3/components/PolkadotWalletSelector";
+import { useSdkContext } from "@/web3/lib/sdk/UniqueSDKProvider";
+import { useAccountsContext } from "@/web3/lib/wallets/AccountsProvider";
 import { Button } from "../ui/button";
 import { Wallet } from "lucide-react";
-import { shortPolkadotAddress } from "@/app/lib/utils";
+import { shortPolkadotAddress } from "@/web3/lib/utils";
 
 const DEFAULT_DECIMALS = 18;
 

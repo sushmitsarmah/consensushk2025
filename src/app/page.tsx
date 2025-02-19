@@ -1,10 +1,10 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import PolkadotWalletSelector from "@/app/components/accounts/PolkadotWalletSelector";
+import PolkadotWalletSelector from "@/web3/components/PolkadotWalletSelector";
 import styles from "./page.module.css";
-import { useSdkContext } from "./lib/sdk/UniqueSDKProvider";
-import { useAccountsContext } from "./lib/wallets/AccountsProvider";
+import { useSdkContext } from "@/web3/lib/sdk/UniqueSDKProvider";
+import { useAccountsContext } from "@/web3/lib/wallets/AccountsProvider";
 
 const DEFAULT_DECIMALS = 18;
 
