@@ -16,6 +16,7 @@ import ImageUploader from "@/web3/services/ipfs/uploadImage"
 import { useState } from "react";
 import Image from "next/image";
 import { uploadMetadata } from "@/web3/services/ipfs/pinata"
+import AudioUploader from "../ipfs/uploadAudio";
 
 interface CreateNFTProps {
     collectionId: number;
@@ -27,11 +28,13 @@ const CreateNFT = ({ collectionId, items }: CreateNFTProps) => {
     const accountContext = useAccountsContext();
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // State to control modal visibility
     const [imageUrl, setImageUrl] = useState<string>("");
+    const [audioUrl, setAudioUrl] = useState<string>(""); // State to store audio file URL
+    const [audioDesc, setAudioDesc] = useState<string>(""); // State to store audio file URL
 
     const [nftData, setNftData] = useState({
         name: '',
         description: '',
-        type: '',
+        external_url: '',
         attributes: [{ trait_type: '', value: '' }]
     });
 
@@ -65,9 +68,18 @@ const CreateNFT = ({ collectionId, items }: CreateNFTProps) => {
 
         if (!sdk || !accountContext?.activeAccount) return;
 
+        // OPENSEA STANDARD
+        // https://docs.opensea.io/docs/metadata-standards
         const formParameters = {
-            ...nftData,
-            image: `ipfs://ipfs/${imageUrl}`,
+            name: nftData.name,
+            description: nftData.description,
+            image: `ipfs://ipfs/${imageUrl}`, // Ensure image is set correctly
+            external_url: nftData.external_url, // Optional field
+            attributes: [
+                ...nftData.attributes,
+                { trait_type: 'audio', value: `ipfs://ipfs/${audioUrl}` }, // Custom attribute for audio file
+                { trait_type: 'audio_description', value: audioDesc } // Custom attribute for audio file description
+            ]
         };
         console.log("Form Parameters:", formParameters);
 
@@ -81,7 +93,7 @@ const CreateNFT = ({ collectionId, items }: CreateNFTProps) => {
         const buildOptions = { signerAddress: account.address };
         const signerAccount = {
             signer: {
-                sign : accountContext.activeAccount.signer.sign as any
+                sign: accountContext.activeAccount.signer.sign as any
             },
             address: account.address
         };
@@ -106,6 +118,11 @@ const CreateNFT = ({ collectionId, items }: CreateNFTProps) => {
         console.log(`🔗 Item metadata URI: ${metadataIpfsHash}`);
     };
 
+    const getAudioType = (url: string) => {
+        const extension = url.split('.').pop();
+        return `audio/${extension}`;
+    };
+
     return (
         <div>
             <Button onClick={() => setIsModalOpen(true)}>Create new NFT</Button>
@@ -119,7 +136,7 @@ const CreateNFT = ({ collectionId, items }: CreateNFTProps) => {
                         </DialogTitle>
                     </DialogHeader>
                     <div className="grid gap-4 py-4">
-                        <form onSubmit={(e) => {e.preventDefault(); createCollectionItem()}} className="flex flex-col gap-4">
+                        <form onSubmit={(e) => { e.preventDefault(); createCollectionItem() }} className="flex flex-col gap-4">
                             <Label htmlFor="name">NFT Name:</Label>
                             <Input
                                 type="text"
@@ -137,19 +154,43 @@ const CreateNFT = ({ collectionId, items }: CreateNFTProps) => {
                                 onChange={handleInputChange}
                             />
                             <Label htmlFor="image">Image URL:</Label>
-                            <ImageUploader setImageUrl={setImageUrl}/>
-                            <input type="hidden" name="image" value={imageUrl}/>
-                            {imageUrl && <Image width={100} height={100} src={`https://gateway.pinata.cloud/ipfs/${imageUrl}`} alt="Uploaded Image" /> }
+                            <ImageUploader setImageUrl={setImageUrl} />
+                            <input type="hidden" name="image" value={imageUrl} />
+                            {imageUrl && <Image width={100} height={100} src={`https://gateway.pinata.cloud/ipfs/${imageUrl}`} alt="Uploaded Image" />}
 
-
-                            <Label htmlFor="type">Type:</Label>
+                            <Label htmlFor="external_url">External URL:</Label>
                             <Input
                                 type="text"
-                                id="type"
-                                name="type"
-                                value={nftData.type}
+                                id="external_url"
+                                name="external_url"
+                                value={nftData.external_url}
                                 onChange={handleInputChange}
                             />
+
+                            <Label htmlFor="audio">Audio URL:</Label>
+                            <Input
+                                type="text"
+                                id="audio"
+                                name="audio"
+                                value={audioUrl}
+                                onChange={(e) => setAudioUrl(e.target.value)}
+                            />
+                            <AudioUploader setAudioUrl={setAudioUrl} />
+                            {audioUrl && (
+                                <audio controls>
+                                    <source src={`https://gateway.pinata.cloud/ipfs/${audioUrl}`} type={getAudioType(audioUrl)} />
+                                    Your browser does not support the audio element.
+                                </audio>
+                            )}
+                            <Label htmlFor="audio_description">Audio Description:</Label>
+                            <Input
+                                type="text"
+                                name="audio_description"
+                                value={audioDesc}
+                                onChange={(e) => setAudioDesc(e.target.value)}
+                            />
+
+                            <Label htmlFor="external_url">Attributes:</Label>
                             {nftData.attributes.map((attribute, index) => (
                                 <div key={index} className="flex gap-2">
                                     <Input
