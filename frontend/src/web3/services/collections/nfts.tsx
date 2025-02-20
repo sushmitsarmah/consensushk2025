@@ -8,7 +8,7 @@ import { useSdkContext } from "@/web3/lib/sdk/UniqueSDKProvider"
 import { ItemCard } from "@/components/elems/item-card";
 import CreateNFT from "./create-nft";
 import { RefreshCw } from "lucide-react";
-// import { CollectionCard } from "@/components/elems/collection-card"
+import Image from "next/image";
 
 interface CollectionPageProps {
     id: string;
@@ -30,7 +30,6 @@ const CollectionNFTs = ({ id }: CollectionPageProps) => {
             const collectionData = await sdk.nftsPallet.collection.get({
                 collectionId: parseInt(id, 10)
             })
-            console.log(collectionData)
             setCollection(collectionData)
 
             if (collectionData.metadata) {
@@ -44,16 +43,6 @@ const CollectionNFTs = ({ id }: CollectionPageProps) => {
         } finally {
             setLoading(false)
         }
-    };
-
-    const fetchItems = async () => {
-        if (!sdk || !collection || +collection.items === 0) return;
-
-        const test = await sdk.nftsPallet.item.get({
-            collectionId: parseInt(id, 10),
-            itemId: 1
-        })
-        console.log(test)
     };
 
     const fetchIpfsData = async (url: string) => {
@@ -85,10 +74,6 @@ const CollectionNFTs = ({ id }: CollectionPageProps) => {
         }
     }, [metadataLink]);
 
-    useEffect(() => {
-        fetchItems()
-    }, [collection])
-
     const showItems = (items: number) => {
         const arr = [];
         for (let i = 1; i <= items; i++) {
@@ -116,20 +101,21 @@ const CollectionNFTs = ({ id }: CollectionPageProps) => {
             <h1 className="text-3xl font-bold text-slate-900 mb-8">
                 Collection {metadata ? metadata.name : `Collection ${id}`}
             </h1>
+            {metadata && <Image width="200" height="200" alt="collection image" src={metadata.image} />}
             {collection && <div className="flex flex-row gap-2">
-                <div>
-                    <h2>Collection Max Supply</h2>
-                    <p>{collection.config.maxSupply}</p>
+                <div className="p-4 shadow-sm border border-gray-300 flex flex-col items-center rounded">
+                    <h2 className="font-bold text-sm">Collection Max Supply</h2>
+                    <p className="font-bold text-2xl">{collection.config.maxSupply}</p>
                 </div>
-                <div>
-                    <h2>Collection Items Count</h2>
-                    <p>{collection.items}</p>
+                <div className="p-4 shadow-sm border border-gray-300 flex flex-col items-center rounded">
+                    <h2 className="font-bold text-sm">Collection Items Count</h2>
+                    <p className="font-bold text-2xl">{collection.items}</p>
                 </div>
             </div>}
             <div className="flex flex-row justify-between">
                 <h1 className="text-3xl font-bold text-slate-900 mb-8">My NFTs</h1>
                 <div className="flex flex-row gap-4">
-                    <RefreshCw onClick={fetchItems} />
+                    <RefreshCw onClick={fetchCollection} />
                     <CreateNFT collectionId={+id} items={collection.items} />
                 </div>
             </div>

@@ -36,25 +36,29 @@ const TradeNFT = ({ collectionId, itemId }: TradeNFTProps) => {
 
         console.log(`🚀 ${tradeType} NFT in collection #${collectionId}...`);
 
-        if (tradeType === "setPrice") {
-            const { result } = await sdk.nftsPallet.trade.setPrice({
-                collectionId,
-                itemId, // manually specifying itemId, though it could also be auto-generated
-                price,
-                buyer,
-            }, buildOptions, signerAccount);
-            console.log(result)
-            console.log(`✅ NFT ${tradeType}! Item ID: ${result.itemId}`);
-        }
+        try {
+            if (tradeType === "setPrice") {
+                const { result } = await sdk.nftsPallet.trade.setPrice({
+                    collectionId: +collectionId,
+                    itemId: +itemId, // manually specifying itemId, though it could also be auto-generated
+                    price,
+                    buyer,
+                }, buildOptions, signerAccount);
+                console.log(result)
+                console.log(`✅ NFT ${tradeType}! Item ID: ${result.itemId}`);
+            }
 
-        if (tradeType === "buy") {
-            const { result } = await sdk.nftsPallet.trade.buy({
-                collectionId,
-                itemId, // manually specifying itemId, though it could also be auto-generated
-                bidPrice,
-            }, buildOptions, signerAccount);
-            console.log(result)
-            console.log(`✅ NFT ${tradeType}! Item ID: ${result.itemId}`);
+            if (tradeType === "buy") {
+                const { result } = await sdk.nftsPallet.trade.buy({
+                    collectionId: +collectionId,
+                    itemId: +itemId, // manually specifying itemId, though it could also be auto-generated
+                    bidPrice,
+                }, buildOptions, signerAccount);
+                console.log(result)
+                console.log(`✅ NFT ${tradeType}! Item ID: ${result.itemId}`);
+            }
+        } catch (error: any) {
+            console.error(error);
         }
 
     };
