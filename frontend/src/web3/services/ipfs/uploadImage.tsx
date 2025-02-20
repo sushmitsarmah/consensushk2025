@@ -4,7 +4,11 @@ import pinata from '@/web3/services/ipfs/pinata'; // Adjust the path as necessar
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
-const ImageUploader: React.FC = () => {
+interface ImageUploaderType {
+  setImageUrl: (url: string) => void;
+}
+
+const ImageUploader = ({ setImageUrl }: ImageUploaderType) => {
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -36,6 +40,7 @@ const ImageUploader: React.FC = () => {
     try {
       const result = await pinata.upload.file(file);
       setSuccess(`File uploaded successfully: ${result.IpfsHash}`);
+      setImageUrl(`${result.IpfsHash}`);
     } catch (err: any) {
       setError(`Error uploading file: ${err.message}`);
     } finally {
