@@ -15,10 +15,10 @@ export function Navbar() {
                         </Link>
                         <div className="hidden sm:flex sm:gap-6">
                             <Link
-                                href="/my-nfts"
+                                href="/"
                                 className="text-sm font-medium text-slate-500 hover:text-slate-700"
                             >
-                                My NFTs
+                                My Collections
                             </Link>
                             <Link
                                 href="/create-collection"

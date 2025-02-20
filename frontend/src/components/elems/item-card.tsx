@@ -59,7 +59,7 @@ export function ItemCard({ itemId, collectionId }: CardProps) {
   }, [metadataLink]);
 
   return (
-    <Link href={`/nft/${itemId}`}>
+    <Link href={`/nft/${collectionId}/${itemId}`}>
       <Card className="overflow-hidden hover:shadow-lg transition-shadow">
         <CardHeader className="p-0">
           <div className="aspect-square">
