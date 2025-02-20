@@ -85,7 +85,7 @@ const CreateNFTCollection = () => {
 
     return (
         <div>
-            <Button onClick={() => setIsModalOpen(true)}>Create new collection</Button>
+            <Button className="bg-gray-300 text-gray-800 font-bold" onClick={() => setIsModalOpen(true)}>Create new collection</Button>
             <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
                 <DialogContent>
                     <DialogHeader>

@@ -70,14 +70,14 @@ export function NFTDetail({ itemId, collectionId }: NFTDetailProps) {
             <div>
                 {metadata ?
                     <>
-                        <h1 className="text-3xl font-bold text-slate-900 mb-4">{metadata.name}</h1>
-                        <p className="text-slate-600 mb-6">{metadata.description}</p>
+                        <h1 className="text-3xl font-bold text-slate-100 mb-4">{metadata.name}</h1>
+                        <p className="text-slate-100 mb-6">{metadata.description}</p>
                     </> : ""}
 
                 <Card>
                     <CardContent className="p-6">
                         <h2 className="text-xl font-semibold mb-4">Attributes</h2>
-                        <div className="grid grid-cols-2 gap-4">
+                        {metadata && metadata.attributes && <div className="grid grid-cols-2 gap-4">
                             {((metadata && metadata.attributes) || []).map((attr: any, index: number) => (
                                 <div
                                     key={index}
@@ -87,7 +87,7 @@ export function NFTDetail({ itemId, collectionId }: NFTDetailProps) {
                                     <p className="font-medium text-slate-900">{attr.value}</p>
                                 </div>
                             ))}
-                        </div>
+                        </div>}
                         <TradeNFT collectionId={collectionId} itemId={itemId} />
                     </CardContent>
                 </Card>
