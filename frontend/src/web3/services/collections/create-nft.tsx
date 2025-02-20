@@ -12,8 +12,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useSdkContext } from "@/web3/lib/sdk/UniqueSDKProvider";
 import { useAccountsContext } from "@/web3/lib/wallets/AccountsProvider";
+import ImageUploader from "@/web3/services/ipfs/uploadImage"
 import { useState } from "react";
-// import { Sr25519Account } from "@unique-nft/sr25519";
+import Image from "next/image";
+import { uploadMetadata } from "@/web3/services/ipfs/pinata"
 
 interface CreateNFTProps {
     collectionId: number;
@@ -24,11 +26,11 @@ const CreateNFT = ({ collectionId, items }: CreateNFTProps) => {
     const { sdk } = useSdkContext();
     const accountContext = useAccountsContext();
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // State to control modal visibility
+    const [imageUrl, setImageUrl] = useState<string>("");
 
     const [nftData, setNftData] = useState({
         name: '',
         description: '',
-        image: '',
         type: '',
         attributes: [{ trait_type: '', value: '' }]
     });
@@ -63,6 +65,15 @@ const CreateNFT = ({ collectionId, items }: CreateNFTProps) => {
 
         if (!sdk || !accountContext?.activeAccount) return;
 
+        const formParameters = {
+            ...nftData,
+            image: `ipfs://ipfs/${imageUrl}`,
+        };
+        console.log("Form Parameters:", formParameters);
+
+        const metadataIpfsHash = await uploadMetadata(formParameters);
+        console.log(metadataIpfsHash)
+
         const account = accountContext?.activeAccount;
 
         // 🐣 Step 3: Create a new collection on AssetHub
@@ -85,17 +96,14 @@ const CreateNFT = ({ collectionId, items }: CreateNFTProps) => {
         }, buildOptions, signerAccount);
         console.log(`✅ NFT minted! Item ID: ${result.itemId}`);
 
-        const metadataIpfsHash = "https://gateway.pinata.cloud/ipfs/bafybeifjmxn2o2pvhkuoop44llwfipu2a5hhar24dshl753kwaslfp7wmq/";
-
         // 🐣 Step 4: Set the metadata URI for the newly created collection
         console.log("📝 Setting item metadata URI...");
-        const itemMetadataUri = `ipfs://ipfs/${metadataIpfsHash}/token_metadata.json`;
         await sdk.nftsPallet.item.setMetadata({
             collectionId,
-            data: itemMetadataUri,
+            data: metadataIpfsHash as string,
             itemId: result.itemId
         }, buildOptions, signerAccount);
-        console.log(`🔗 Item metadata URI: ${itemMetadataUri}`);
+        console.log(`🔗 Item metadata URI: ${metadataIpfsHash}`);
     };
 
     return (
@@ -129,13 +137,11 @@ const CreateNFT = ({ collectionId, items }: CreateNFTProps) => {
                                 onChange={handleInputChange}
                             />
                             <Label htmlFor="image">Image URL:</Label>
-                            <Input
-                                type="text"
-                                id="image"
-                                name="image"
-                                value={nftData.image}
-                                onChange={handleInputChange}
-                            />
+                            <ImageUploader setImageUrl={setImageUrl}/>
+                            <input type="hidden" name="image" value={imageUrl}/>
+                            {imageUrl && <Image width={100} height={100} src={`https://gateway.pinata.cloud/ipfs/${imageUrl}`} alt="Uploaded Image" /> }
+
+
                             <Label htmlFor="type">Type:</Label>
                             <Input
                                 type="text"
