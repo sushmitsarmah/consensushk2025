@@ -64,7 +64,7 @@ export function WalletModal() {
 
     return (
         <>
-            <Button onClick={() => setShowWalletModal(true)}>
+            <Button className="bg-blue-400 text-gray-800" onClick={() => setShowWalletModal(true)}>
                 {accountContext?.activeAccount
                     ? <p className="font-bold">{showAddress()}</p>
                     : <div className="flex flex-row gap-1">

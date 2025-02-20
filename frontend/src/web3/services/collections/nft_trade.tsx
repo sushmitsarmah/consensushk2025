@@ -64,13 +64,15 @@ const TradeNFT = ({ collectionId, itemId }: TradeNFTProps) => {
     };
 
     return (
-        <div className="flex flex-row gap-4">
-            <div>
-                <Input type="number" placeholder="Price" onChange={(e) => setPrice(parseInt(e.target.value))} />
-                <Input type="text" placeholder="Buyer" onChange={(e) => setBuyer(e.target.value)} />
+        <div className="flex flex-row gap-4 items-center justify-between">
+            <div className="flex flex-col gap-4">
+                <div className="flex flex-row gap-4">
+                    <Input type="number" placeholder="Price" onChange={(e) => setPrice(parseInt(e.target.value))} />
+                    <Input type="text" placeholder="Buyer" onChange={(e) => setBuyer(e.target.value)} />
+                </div>
                 <Button className="bg-yellow-600" onClick={() => tradeNFT("setPrice")}>Set NFT Price</Button>
             </div>
-            <div>
+            <div className="flex flex-col gap-4">
                 <Input type="number" placeholder="Bid Price" onChange={(e) => setBidPrice(parseInt(e.target.value))} />
                 <Button className="bg-green-500" onClick={() => tradeNFT("buy")}>Buy NFT</Button>
             </div>

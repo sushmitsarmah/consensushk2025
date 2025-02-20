@@ -125,7 +125,7 @@ const CreateNFT = ({ collectionId, items }: CreateNFTProps) => {
 
     return (
         <div>
-            <Button onClick={() => setIsModalOpen(true)}>Create new NFT</Button>
+            <Button className="bg-blue-500 text-gray-900" onClick={() => setIsModalOpen(true)}>Create new NFT</Button>
             <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
                 <DialogContent>
                     <DialogHeader>

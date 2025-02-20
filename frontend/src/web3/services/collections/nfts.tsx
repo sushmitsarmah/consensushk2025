@@ -98,24 +98,27 @@ const CollectionNFTs = ({ id }: CollectionPageProps) => {
 
     return (
         <div className="flex flex-col gap-4">
-            <h1 className="text-3xl font-bold text-slate-900 mb-8">
+            <h1 className="text-3xl font-bold text-slate-100 mb-8">
                 Collection {metadata ? metadata.name : `Collection ${id}`}
             </h1>
-            {metadata && <Image width="200" height="200" alt="collection image" src={metadata.image} />}
-            {collection && <div className="flex flex-row gap-2">
-                <div className="p-4 shadow-sm border border-gray-300 flex flex-col items-center rounded">
-                    <h2 className="font-bold text-sm">Collection Max Supply</h2>
-                    <p className="font-bold text-2xl">{collection.config.maxSupply}</p>
-                </div>
-                <div className="p-4 shadow-sm border border-gray-300 flex flex-col items-center rounded">
-                    <h2 className="font-bold text-sm">Collection Items Count</h2>
-                    <p className="font-bold text-2xl">{collection.items}</p>
-                </div>
-            </div>}
-            <div className="flex flex-row justify-between">
-                <h1 className="text-3xl font-bold text-slate-900 mb-8">My NFTs</h1>
-                <div className="flex flex-row gap-4">
-                    <RefreshCw onClick={fetchCollection} />
+            <div className="flex flex-row gap-4">
+                {metadata && <Image width="200" height="200" alt="collection image" src={metadata.image} />}
+                {collection && <div className="flex flex-col gap-2">
+                    <div className="p-4 shadow-sm border border-gray-300 flex flex-col items-center rounded">
+                        <h2 className="font-bold text-gray-100 text-sm">Collection Max Supply</h2>
+                        <p className="font-bold text-gray-100 text-2xl">{collection.config.maxSupply}</p>
+                    </div>
+                    <div className="p-4 shadow-sm border border-gray-300 flex flex-col items-center rounded">
+                        <h2 className="font-bold text-gray-100 text-sm">Collection Items Count</h2>
+                        <p className="font-bold text-gray-100 text-2xl">{collection.items}</p>
+                    </div>
+                </div>}
+            </div>
+            <hr />
+            <div className="flex flex-row justify-between items-center">
+                <h1 className="text-3xl font-bold text-slate-100 mb-8">My NFTs</h1>
+                <div className="flex flex-row gap-4 items-center">
+                    <RefreshCw className="text-white" onClick={fetchCollection} />
                     <CreateNFT collectionId={+id} items={collection.items} />
                 </div>
             </div>

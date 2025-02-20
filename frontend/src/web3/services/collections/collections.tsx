@@ -36,7 +36,7 @@ const ShowCollections = () => {
     return (
         <div className="flex flex-col gap-4">
             <div className="flex flex-row justify-between">
-                <h1 className="text-3xl font-bold text-slate-900 mb-8">My Collections</h1>
+                <h1 className="text-3xl font-bold text-slate-100 mb-8">My Collections</h1>
                 <div className="flex flex-row gap-4">
                     <RefreshCw onClick={fetchCollections} />
                     <CreateNFTCollection />
