@@ -60,7 +60,7 @@ const CollectionNFTs = ({ id }: CollectionPageProps) => {
         const arr = [];
         for (let i = 1; i <= items; i++) {
             arr.push(
-                <ItemCard key={i} id={i} />
+                <ItemCard key={i} itemId={i} collectionId={+id} />
             )
         }
         return arr;
